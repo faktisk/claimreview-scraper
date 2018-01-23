@@ -35,7 +35,8 @@ class ClaimreviewSpider(scrapy.Spider):
             yield item
 
         for a in response.css('a'):
-            yield response.follow(a, callback=self.parse)
+            if a.css('::attr(href)').extract():
+                yield response.follow(a, callback=self.parse)
 
 
     def get_claim_reviews(self, response):
