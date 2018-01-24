@@ -37,6 +37,10 @@ const searchkit = new SearchkitManager('https://int.faktisk.no/claimreviews/');
 
 const FactCheckItem = ({bemBlocks, result: {_source}}) => (
     <div className="factcheck-item">
+        {_source.image ? (
+            <img src={_source.image.url} />
+        ) : null}
+
         <blockquote>
             <p>
                 <a href={_source.url} target="_blank">
@@ -62,7 +66,6 @@ const FactCheckItem = ({bemBlocks, result: {_source}}) => (
             {_source.datePublished ? <small className="muted"> @ {moment(_source.datePublished).format('LLL')}</small> : null}
         </p>
 
-
         <pre>{/*JSON.stringify(_source, null, 2)*/}</pre>
 
    </div>
@@ -87,6 +90,13 @@ const App = () => (
                         id="authors"
                         title="Authors"
                         field="author.name.keyword"
+                        operator="AND"
+                        size={10}
+                    />
+                    <RefinementListFilter
+                        id="claimants"
+                        title="Claimants"
+                        field="itemReviewed.author.name.keyword"
                         operator="AND"
                         size={10}
                     />

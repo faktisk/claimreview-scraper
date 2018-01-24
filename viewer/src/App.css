@@ -36,9 +36,14 @@
   width: 100%;
 }
 
+.factcheck-item img {
+  max-width: 200px;
+  float: right;
+  margin: 1rem;
+}
+
 .factcheck-item blockquote {
   font-style: italic;
-
 }
 
 blockquote {
