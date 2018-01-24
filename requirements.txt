@@ -18,6 +18,7 @@ pyasn1-modules==0.2.1
 pycparser==2.18
 PyDispatcher==2.0.5
 pyOpenSSL==17.5.0
+python-dateutil==2.6.1
 queuelib==1.4.2
 Scrapy==1.5.0
 ScrapyElasticSearch==0.9.1
