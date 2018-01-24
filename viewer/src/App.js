@@ -35,11 +35,9 @@ import {
 
 const searchkit = new SearchkitManager('https://int.faktisk.no/claimreviews/');
 
-const FactCheckItem = ({bemBlocks, result: {_source}}) => (
+const FactCheckItem = ({ bemBlocks, result: { _source } }) => (
     <div className="factcheck-item">
-        {_source.image ? (
-            <img src={_source.image.url} />
-        ) : null}
+        {_source.image ? <img src={_source.image.url} /> : null}
 
         <blockquote>
             <p>
@@ -49,28 +47,32 @@ const FactCheckItem = ({bemBlocks, result: {_source}}) => (
             </p>
 
             <footer>
-                {
-                    _source.itemReviewed && _source.itemReviewed.author ? (
-                        _source.itemReviewed.author.map(a => (
-                            <cite key={a.name}>
-                                {a.name} ({a.type.split('/').slice(-1)})
-                            </cite>
-                        ))
-                    ) : null
-                }
+                {_source.itemReviewed && _source.itemReviewed.author
+                    ? _source.itemReviewed.author.map(a => (
+                          <cite key={a.name}>
+                              {a.name} ({a.type.split('/').slice(-1)})
+                          </cite>
+                      ))
+                    : null}
             </footer>
         </blockquote>
 
         <p>
-            <small className="muted">Rated <strong>{_source.reviewRating.alternateName}</strong> by {_source.author.map(e => e.name)}</small>
-            {_source.datePublished ? <small className="muted"> @ {moment(_source.datePublished).format('LLL')}</small> : null}
+            <small className="muted">
+                Rated <strong>{_source.reviewRating.alternateName}</strong> by{' '}
+                {_source.author.map(e => e.name)}
+            </small>
+            {_source.datePublished ? (
+                <small className="muted">
+                    {' '}
+                    @ {moment(_source.datePublished).format('LLL')}
+                </small>
+            ) : null}
         </p>
 
         <pre>{/*JSON.stringify(_source, null, 2)*/}</pre>
-
-   </div>
-
-)
+    </div>
+);
 
 const App = () => (
     <SearchkitProvider searchkit={searchkit}>
@@ -79,9 +81,7 @@ const App = () => (
                 <SearchBox
                     autofocus={true}
                     searchOnChange={true}
-                    prefixQueryFields={[
-                        'claimReviewed^1',
-                    ]}
+                    prefixQueryFields={['claimReviewed^1']}
                 />
             </TopBar>
             <LayoutBody>
@@ -112,6 +112,26 @@ const App = () => (
                     <ActionBar>
                         <ActionBarRow>
                             <HitsStats />
+                            <SortingSelector
+                                options={[
+                                    {
+                                        label: 'Relevance',
+                                        field: '_score',
+                                        order: 'desc',
+                                        defaultOption: true
+                                    },
+                                    {
+                                        label: 'Published',
+                                        field: 'datePublished',
+                                        order: 'desc'
+                                    },
+                                    {
+                                        label: 'Claim published',
+                                        field: 'itemReviewed.datePublished',
+                                        order: 'desc'
+                                    }
+                                ]}
+                            />
                         </ActionBarRow>
 
                         <ActionBarRow>
@@ -119,6 +139,7 @@ const App = () => (
                             <ResetFilters />
                         </ActionBarRow>
                     </ActionBar>
+
                     <Hits
                         mod="sk-hits-list"
                         hitsPerPage={20}
