@@ -98,6 +98,7 @@ ELASTICSEARCH_INDEX = 'claimreviews'
 # ELASTICSEARCH_INDEX_DATE_FORMAT = '%Y-%m'
 ELASTICSEARCH_TYPE = 'claimreview'
 ELASTICSEARCH_UNIQ_KEY = 'url'  # Custom unique key
+ELASTICSEARCH_BUFFER_LENGTH = 50 # items to buffer before indexing
 
 # can also accept a list of fields if need a composite key
 # ELASTICSEARCH_UNIQ_KEY = ['url', 'id']

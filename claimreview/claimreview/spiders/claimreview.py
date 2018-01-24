@@ -12,11 +12,11 @@ class ClaimReviewSpider(CrawlSpider):
     name = 'claimreview'
 
     allowed_domains = [
-        'fullfact.org',
+        'www.snopes.com',
         'politifact.com',
+        'fullfact.org',
         'www.faktisk.no',
         'factcheck.org',
-        'www.snopes.com'
     ]
 
     start_urls = [
