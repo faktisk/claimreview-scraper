@@ -3,52 +3,38 @@ import scrapy
 import microdata
 import json
 
+from claimreview.items import *
+from claimreview.parser import ClaimReviewParser
+from scrapy.spiders import CrawlSpider, Rule
+from scrapy.linkextractors import LinkExtractor
 
-
-class ClaimreviewSpider(scrapy.Spider):
+class ClaimReviewSpider(CrawlSpider):
     name = 'claimreview'
-
-    schema_type = 'http://schema.org/ClaimReview'
 
     allowed_domains = [
         'fullfact.org',
         'politifact.com',
-        'faktisk.no',
+        'www.faktisk.no',
         'factcheck.org',
-        'snopes.com'
+        'www.snopes.com'
     ]
 
     start_urls = [
         'https://fullfact.org',
         'http://www.politifact.com',
         'https://www.snopes.com',
-        'https://www.factcheck.org'
+        'https://www.factcheck.org',
     ]
 
-    def parse(self, response):
-        items = self.get_claim_reviews(response)
+    rules = (
+        Rule(LinkExtractor(allow=''), follow=True, callback='parse_item'),
+    )
 
-        if len(items) == 0:
-            self.log('no items found')
+    claim_review_parser = ClaimReviewParser()
+
+    def parse_item(self, response):
+        items = self.claim_review_parser.parse(response)
+        self.log('{}: {} items found'.format(response.url, len(items)))
 
         for item in items:
             yield item
-
-        for a in response.css('a'):
-            if a.css('::attr(href)').extract():
-                yield response.follow(a, callback=self.parse)
-
-
-    def get_claim_reviews(self, response):
-        items = [item.json_dict() for item in microdata.get_items(response.text)]
-        items = [item for item in items if 'type' in item and self.schema_type in item['type']]
-
-        scripts = response.css('script[type="application/ld+json"]::text').extract()
-
-        for script in scripts:
-            item = json.loads(script)
-
-            if '@type' in item and (item['@type'] == 'ClaimReview' or 'ClaimReview' in item['@type']):
-                items.append(item)
-
-        return items

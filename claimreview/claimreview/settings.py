@@ -14,15 +14,14 @@ BOT_NAME = 'claimreview'
 SPIDER_MODULES = ['claimreview.spiders']
 NEWSPIDER_MODULE = 'claimreview.spiders'
 
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'faktisk-claimreview-scraper (+https://www.faktisk.no)'
+USER_AGENT = 'faktisk-claimreview-scraper (+https://www.faktisk.no,jari@faktisk.no)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 32
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -33,7 +32,7 @@ ROBOTSTXT_OBEY = True
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -65,8 +64,11 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    'claimreview.pipelines.ClaimreviewPipeline': 300,
 #}
+ITEM_PIPELINES = {
+    # 'claimreview.pipelines.ClaimreviewPipeline': 300,
+    'scrapyelasticsearch.scrapyelasticsearch.ElasticSearchPipeline': 500
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -88,3 +90,14 @@ HTTPCACHE_EXPIRATION_SECS = 600
 HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+HTTPCACHE_GZIP = True
+HTTPCACHE_POLICT = 'scrapy.extensions.httpcache.RFC2616Policy'
+
+ELASTICSEARCH_SERVERS = [ 'localhost:9200' ]
+ELASTICSEARCH_INDEX = 'claimreviews'
+# ELASTICSEARCH_INDEX_DATE_FORMAT = '%Y-%m'
+ELASTICSEARCH_TYPE = 'claimreview'
+ELASTICSEARCH_UNIQ_KEY = 'url'  # Custom unique key
+
+# can also accept a list of fields if need a composite key
+# ELASTICSEARCH_UNIQ_KEY = ['url', 'id']
