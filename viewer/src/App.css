@@ -63,3 +63,9 @@ blockquote:before {
 blockquote p {
   display: inline;
 }
+
+blockquote footer {
+  padding-top: .5rem;
+  color: #777;
+  font-size: .8rem;
+}

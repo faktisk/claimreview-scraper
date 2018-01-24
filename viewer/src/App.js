@@ -39,36 +39,37 @@ const FactCheckItem = ({ bemBlocks, result: { _source } }) => (
     <div className="factcheck-item">
         {_source.image ? <img src={_source.image.url} /> : null}
 
-        <blockquote>
-            <p>
-                <a href={_source.url} target="_blank">
-                    {_source.claimReviewed}
-                </a>
-            </p>
-
-            <footer>
-                {_source.itemReviewed && _source.itemReviewed.author
-                    ? _source.itemReviewed.author.map(a => (
-                          <cite key={a.name}>
-                              {a.name} ({a.type.split('/').slice(-1)})
-                          </cite>
-                      ))
-                    : null}
-            </footer>
-        </blockquote>
 
         <p>
             <small className="muted">
                 Rated <strong>{_source.reviewRating.alternateName}</strong> by{' '}
                 {_source.author.map(e => e.name)}
             </small>
-            {_source.datePublished ? (
-                <small className="muted">
-                    {' '}
-                    @ {moment(_source.datePublished).format('LLL')}
-                </small>
-            ) : null}
+
+            <small className="muted">
+                {' '}@{' '}
+                <a href={_source.url} target="_blank">
+                    {_source.datePublished
+                        ? moment(_source.datePublished).format('LLL')
+                        : 'Unknown date'}
+                </a>
+            </small>
         </p>
+
+
+        <blockquote>
+            <p>{_source.claimReviewed}</p>
+
+            <footer>
+                – {_source.itemReviewed && _source.itemReviewed.author
+                    ? _source.itemReviewed.author.map(a => (
+                          <cite key={a.name}>
+                              {a.name} ({a.type.split('/').slice(-1)})
+                          </cite>
+                      ))
+                    : null} @ {_source.itemReviewed.datePublished ? moment(_source.itemReviewed.datePublished).format('LLL') : 'Unknown date'}
+            </footer>
+        </blockquote>
 
         <pre>{/*JSON.stringify(_source, null, 2)*/}</pre>
     </div>
@@ -81,7 +82,7 @@ const App = () => (
                 <SearchBox
                     autofocus={true}
                     searchOnChange={true}
-                    prefixQueryFields={['claimReviewed^1']}
+                    prefixQueryFields={['claimReviewed^1', 'author.name^1', 'itemReviewed.author.name^1']}
                 />
             </TopBar>
             <LayoutBody>
@@ -90,22 +91,22 @@ const App = () => (
                         id="authors"
                         title="Authors"
                         field="author.name.keyword"
-                        operator="AND"
+                        operator="OR"
                         size={10}
                     />
                     <RefinementListFilter
                         id="claimants"
                         title="Claimants"
                         field="itemReviewed.author.name.keyword"
-                        operator="AND"
+                        operator="OR"
                         size={10}
                     />
                     <RefinementListFilter
                         id="ratings"
                         title="Ratings"
                         field="reviewRating.alternateName.keyword"
-                        operator="AND"
-                        size={50}
+                        operator="OR"
+                        size={10}
                     />
                 </SideBar>
                 <LayoutResults>
