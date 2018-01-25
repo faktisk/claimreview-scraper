@@ -1,5 +1,6 @@
 import scrapy
 from scrapy.spiders import XMLFeedSpider
+from scrapy import Selector
 from claimreview.spiders.claimreview import ClaimReviewSpider
 from claimreview.parser import ClaimReviewParser
 
@@ -15,10 +16,23 @@ class FaktiskSpider(XMLFeedSpider):
     ]
 
     iterator = 'xml'
-    namespaces = [('atom', 'http://www.w3.org/2005/Atom')]
     itertag = 'atom:entry'
 
+    namespaces = [
+        ('atom', 'http://www.w3.org/2005/Atom')
+    ]
+
     parser = ClaimReviewParser()
+
+    def parse(self, response):
+      items = super(FaktiskSpider, self).parse(response)
+      next_url = Selector(response, namespaces=self.namespaces).xpath('.//atom:link[@rel="next"]/@href').extract_first()
+
+      if next_url:
+        items = list(items)
+        items.append(response.follow(next_url))
+
+      return items
 
     def parse_node(self, response, node):
       html_page = node.xpath('./atom:link[@rel="alternate" and @type="text/html"]/@href').extract_first()
@@ -28,8 +42,9 @@ class FaktiskSpider(XMLFeedSpider):
 
     def parse_html(self, response):
       items = self.parser.parse(response)
+
       for item in items:
-        yield item
+          yield item
 
 
 
