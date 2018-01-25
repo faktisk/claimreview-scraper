@@ -148,6 +148,8 @@ const App = () => (
                         sourceFilter={null}
                     />
                     <NoHits suggestionsField="claimReviewed" />
+
+                    <Pagination showNumbers />
                 </LayoutResults>
             </LayoutBody>
         </Layout>
