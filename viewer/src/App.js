@@ -3,6 +3,7 @@ import './App.css';
 
 import 'searchkit/release/theme.css';
 import moment from 'moment';
+import langs from 'langs';
 
 import {
     SearchkitManager,
@@ -39,7 +40,6 @@ const FactCheckItem = ({ bemBlocks, result: { _source } }) => (
     <div className="factcheck-item">
         {_source.image ? <img src={_source.image.url} /> : null}
 
-
         <p>
             <small className="muted">
                 Rated <strong>{_source.reviewRating.alternateName}</strong> by{' '}
@@ -47,7 +47,8 @@ const FactCheckItem = ({ bemBlocks, result: { _source } }) => (
             </small>
 
             <small className="muted">
-                {' '}@{' '}
+                {' '}
+                @{' '}
                 <a href={_source.url} target="_blank">
                     {_source.datePublished
                         ? moment(_source.datePublished).format('LLL')
@@ -56,22 +57,50 @@ const FactCheckItem = ({ bemBlocks, result: { _source } }) => (
             </small>
         </p>
 
-
         <blockquote>
             <p>{_source.claimReviewed}</p>
 
             <footer>
-                – {_source.itemReviewed && _source.itemReviewed.author
+                –{' '}
+                {_source.itemReviewed && _source.itemReviewed.author
                     ? _source.itemReviewed.author.map(a => (
                           <cite key={a.name}>
                               {a.name} ({a.type.split('/').slice(-1)})
                           </cite>
                       ))
-                    : null} @ {_source.itemReviewed.datePublished ? moment(_source.itemReviewed.datePublished).format('LLL') : 'Unknown date'}
+                    : null}{' '}
+                @{' '}
+                {_source.itemReviewed.datePublished
+                    ? moment(_source.itemReviewed.datePublished).format('LLL')
+                    : 'Unknown date'}
             </footer>
         </blockquote>
 
         <pre>{/*JSON.stringify(_source, null, 2)*/}</pre>
+    </div>
+);
+
+const codeToLang = str => {
+    const lang = langs.where('1', str) || langs.where('2', str) || langs.where('3', str);
+
+    if (lang) {
+        return lang.name;
+    } else {
+        return str;
+    }
+}
+
+
+const LanguageRefinementOption = props => (
+    <div
+        className={props.bemBlocks
+            .option()
+            .state({ selected: props.selected })
+            .mix(props.bemBlocks.container('item'))}
+        onClick={props.onClick}
+    >
+        <div className={props.bemBlocks.option('text')}>{codeToLang(props.label)}</div>
+        <div className={props.bemBlocks.option('count')}>{props.count}</div>
     </div>
 );
 
@@ -82,11 +111,23 @@ const App = () => (
                 <SearchBox
                     autofocus={true}
                     searchOnChange={true}
-                    prefixQueryFields={['claimReviewed^1', 'author.name^1', 'itemReviewed.author.name^1']}
+                    prefixQueryFields={[
+                        'claimReviewed^1',
+                        'author.name^1',
+                        'itemReviewed.author.name^1'
+                    ]}
                 />
             </TopBar>
             <LayoutBody>
                 <SideBar>
+                    <RefinementListFilter
+                        id="language"
+                        title="Language"
+                        field="language.keyword"
+                        operator="OR"
+                        itemComponent={LanguageRefinementOption}
+                        size={10}
+                    />
                     <RefinementListFilter
                         id="authors"
                         title="Authors"

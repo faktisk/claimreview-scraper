@@ -17,38 +17,38 @@ class ClaimReviewSpider(CrawlSpider):
 
     allowed_domains = [
         'africacheck.org',
+        'aosfatos.org',
+        'apublica.org',
+        'chequeado.com',
         'climatefeedback.org',
         'fullfact.org',
+        'nieuwscheckers.nl',
         'pagellapolitica.it',
         'politifact.com',
+        'teyit.org'
         'www.africacheck.org'
+        'www.dogrulukpayi.com',
+        'www.factcheck.org',
         'www.gossipcop.com',
         'www.snopes.com',
-        'www.factcheck.org',
-        'apublica.org',
-        'aosfatos.org',
-        'chequeado.com',
-        'www.dogrulukpayi.com',
-        'nieuwscheckers.nl',
-        'teyit.org'
     ]
 
     start_urls = [
-        'https://fullfact.org',
+        'http://chequeado.com/',
+        'http://nieuwscheckers.nl/',
+        'http://www.dogrulukpayi.com/',
         'http://www.politifact.com',
-        'https://www.snopes.com',
+        'https://africacheck.org',
+        'https://aosfatos.org/',
+        'https://apublica.org',
+        'https://fullfact.org',
+        'https://pagellapolitica.it',
+        'https://teyit.org'
+        'https://theferret.scot/category/fact-check/',
+        'https://www.factcheck.org',
         'https://www.factcheck.org',
         'https://www.gossipcop.com',
-        'https://pagellapolitica.it',
-        'https://theferret.scot/category/fact-check/',
-        'https://africacheck.org',
-        'https://www.factcheck.org',
-        'https://apublica.org',
-        'https://aosfatos.org/',
-        'http://chequeado.com/',
-        'http://www.dogrulukpayi.com/',
-        'http://nieuwscheckers.nl/',
-        'https://teyit.org'
+        'https://www.snopes.com',
     ]
 
     rules = (
@@ -88,6 +88,6 @@ class ClaimReviewSpider(CrawlSpider):
         elif host_without_www in self.domain_languages:
             return self.domain_languages[host_without_www]
         elif html_lang:
-            return html_lang[0]
+            return re.split('[\-_]', html_lang[0])[0]
         else:
             return 'en'
