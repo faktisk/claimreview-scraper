@@ -22,6 +22,8 @@ class FaktiskSpider(XMLFeedSpider):
         ('atom', 'http://www.w3.org/2005/Atom')
     ]
 
+    language = 'no'
+
     parser = ClaimReviewParser()
 
     def parse(self, response):
@@ -41,7 +43,7 @@ class FaktiskSpider(XMLFeedSpider):
       return response.follow(html_page, callback=self.parse_html)
 
     def parse_html(self, response):
-      items = self.parser.parse(response)
+      items = self.parser.parse(response, language=self.language)
 
       for item in items:
           yield item

@@ -8,4 +8,4 @@
 # Crawl
 
     cd claimreview
-    scrapy crawl claimreview -o ../claimreviews.jl
+    scrapy crawl claimreview

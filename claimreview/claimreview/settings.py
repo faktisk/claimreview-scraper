@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import os
 # Scrapy settings for claimreview project
 #
 # For simplicity, this file contains only settings considered important or
@@ -93,7 +93,7 @@ HTTPCACHE_DIR = 'httpcache'
 HTTPCACHE_GZIP = True
 HTTPCACHE_POLICT = 'scrapy.extensions.httpcache.RFC2616Policy'
 
-ELASTICSEARCH_SERVERS = [ 'localhost:9200' ]
+ELASTICSEARCH_SERVERS = [ os.environ.get('ELASTICSEARCH_URL', 'localhost:9200') ]
 ELASTICSEARCH_INDEX = 'claimreviews'
 # ELASTICSEARCH_INDEX_DATE_FORMAT = '%Y-%m'
 ELASTICSEARCH_TYPE = 'claimreview'
