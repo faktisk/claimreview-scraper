@@ -10,7 +10,7 @@ do
   spider_name=$(basename $spider .py)
 
   if [[ $spider_name != __* && $spider_name != "commoncrawl" ]]; then
-    echo scrapy crawl $spider_name
+    scrapy crawl $spider_name
   fi
 done
 
