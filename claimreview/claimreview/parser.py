@@ -131,7 +131,7 @@ class ClaimReviewParser(object):
         return [
             dict(
                 type=str(a.itemtype[-1]),
-                name=a.get('name'),
+                name=self.fix_name(a.get('name')),
                 url=str(a.get('url')) if a.get('url') else None,
                 twitter=str(a.get('twitter')) if a.get('twitter') else None,
                 sameAs=[str(s) for s in a.get_all('sameAs')]

@@ -157,15 +157,15 @@ const App = () => (
                             <SortingSelector
                                 options={[
                                     {
-                                        label: 'Relevance',
-                                        field: '_score',
+                                        label: 'Published',
+                                        field: 'datePublished',
                                         order: 'desc',
                                         defaultOption: true
                                     },
                                     {
-                                        label: 'Published',
-                                        field: 'datePublished',
-                                        order: 'desc'
+                                        label: 'Relevance',
+                                        field: '_score',
+                                        order: 'desc',
                                     },
                                     {
                                         label: 'Claim published',

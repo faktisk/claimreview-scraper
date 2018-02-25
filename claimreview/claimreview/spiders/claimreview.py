@@ -6,11 +6,9 @@ import re
 
 from urllib.parse import urlparse
 
-from claimreview.items import *
 from claimreview.parser import ClaimReviewParser
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
-
 
 class ClaimReviewSpider(CrawlSpider):
     name = 'claimreview'
@@ -29,7 +27,7 @@ class ClaimReviewSpider(CrawlSpider):
         'www.africacheck.org'
         'www.dogrulukpayi.com',
         'www.factcheck.org',
-        'www.gossipcop.com',
+        # 'www.gossipcop.com',
         'www.snopes.com',
     ]
 
@@ -47,7 +45,7 @@ class ClaimReviewSpider(CrawlSpider):
         'https://theferret.scot/category/fact-check/',
         'https://www.factcheck.org',
         'https://www.factcheck.org',
-        'https://www.gossipcop.com',
+        # 'https://www.gossipcop.com',
         'https://www.snopes.com',
     ]
 
