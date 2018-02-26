@@ -22,7 +22,7 @@ class ClaimReviewSpider(CrawlSpider):
         'fullfact.org',
         'nieuwscheckers.nl',
         'pagellapolitica.it',
-        'politifact.com',
+        'www.politifact.com',
         'teyit.org'
         'www.africacheck.org'
         'www.dogrulukpayi.com',

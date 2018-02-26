@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 
 import 'searchkit/release/theme.css';
@@ -11,7 +11,6 @@ import {
     SearchBox,
     RefinementListFilter,
     Pagination,
-    HierarchicalMenuFilter,
     HitsStats,
     SortingSelector,
     NoHits,
@@ -95,7 +94,7 @@ const LanguageRefinementOption = props => (
     <div
         className={props.bemBlocks
             .option()
-            .state({ selected: props.selected })
+            .state({ active: props.active })
             .mix(props.bemBlocks.container('item'))}
         onClick={props.onClick}
     >

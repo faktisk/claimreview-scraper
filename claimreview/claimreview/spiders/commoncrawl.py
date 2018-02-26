@@ -10,7 +10,7 @@ from claimreview.parser import ClaimReviewParser
 class CommonCrawlSpider(Spider):
     name = "commoncrawl"
     domains = [
-        'politifact.com',
+        'www.politifact.com',
         'faktisk.no',
         'africacheck.org',
         'aosfatos.org',
