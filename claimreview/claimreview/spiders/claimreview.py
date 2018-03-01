@@ -21,7 +21,7 @@ class ClaimReviewSpider(CrawlSpider):
         'climatefeedback.org',
         'fullfact.org',
         'nieuwscheckers.nl',
-        'pagellapolitica.it',
+        # 'pagellapolitica.it',
         'www.politifact.com',
         'teyit.org'
         'www.africacheck.org'
@@ -40,7 +40,7 @@ class ClaimReviewSpider(CrawlSpider):
         'https://aosfatos.org/',
         'https://apublica.org',
         'https://fullfact.org',
-        'https://pagellapolitica.it',
+        # 'https://pagellapolitica.it',
         'https://teyit.org'
         'https://theferret.scot/category/fact-check/',
         'https://www.factcheck.org',
