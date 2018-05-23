@@ -38,6 +38,7 @@ class ClaimReviewParser(object):
         rr = item.get('reviewRating')
         ir = item.get('itemReviewed')
         url = item.get('url')
+        rv = rr.get('ratingValue')
 
         return dict(
             type=item.get('@type'),
@@ -56,7 +57,7 @@ class ClaimReviewParser(object):
             claimReviewed=item.get('claimReviewed'),
             reviewRating=dict(
                 type=rr.get('@type'),
-                ratingValue=rr.get('ratingValue'),
+                ratingValue=rv,
                 bestRating=rr.get('bestRating'),
                 worstRating=rr.get('worstRating'),
                 alternateName=rr.get('alternateName')

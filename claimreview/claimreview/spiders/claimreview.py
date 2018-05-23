@@ -29,6 +29,7 @@ class ClaimReviewSpider(CrawlSpider):
         'www.factcheck.org',
         # 'www.gossipcop.com',
         'www.snopes.com',
+        'www.faktiskt.se'
     ]
 
     start_urls = [
@@ -47,6 +48,7 @@ class ClaimReviewSpider(CrawlSpider):
         'https://www.factcheck.org',
         # 'https://www.gossipcop.com',
         'https://www.snopes.com',
+        'https://www.faktiskt.se',
     ]
 
     rules = (
@@ -62,7 +64,8 @@ class ClaimReviewSpider(CrawlSpider):
         'chequeado.com': 'es',
         'dogrulukpayi.com': 'tr',
         'nieuwscheckers.nl': 'nl',
-        'teyit.org': 'tr'
+        'teyit.org': 'tr',
+        'faktiskt.se': 'se',
     }
 
     language = None
