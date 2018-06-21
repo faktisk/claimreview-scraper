@@ -65,7 +65,7 @@ class ClaimReviewSpider(CrawlSpider):
         'dogrulukpayi.com': 'tr',
         'nieuwscheckers.nl': 'nl',
         'teyit.org': 'tr',
-        'faktiskt.se': 'se',
+        'faktiskt.se': 'sv',
     }
 
     language = None
