@@ -64,7 +64,7 @@ const FactCheckItem = ({ bemBlocks, result: { _source } }) => (
                 {_source.itemReviewed && _source.itemReviewed.author
                     ? _source.itemReviewed.author.map(a => (
                           <cite key={a.name}>
-                              {a.name} ({a.type.split('/').slice(-1)})
+                              {a.name} ({a.type ? a.type.split('/').slice(-1) : 'Unknown'})
                           </cite>
                       ))
                     : null}{' '}
